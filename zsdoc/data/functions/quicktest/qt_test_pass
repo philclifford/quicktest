@@ -1,0 +1,7 @@
+qt_echo "🪵 $QT_FULL_LOG"
+qt_echo "📁 $QT_RESULTS"
+qt_echo "🎉 Test passed: $1"
+if $QT_OPEN_RESULTS ; then
+    open "$QT_RESULTS"
+fi
+qt_write_summary_log "🎉 PASS "

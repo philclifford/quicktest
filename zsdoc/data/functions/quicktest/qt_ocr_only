@@ -1,0 +1,16 @@
+local test_name="$1"
+local screenshot_count
+screenshot_count=$(printf "%04d" $QT_SCREENSHOT_COUNT)
+local ppmname="$QT_RESULTS"/screenshot_"$screenshot_count"_"$test_name".ppm
+local ppmx3name="$QT_RESULTS"/screenshot_"$screenshot_count"_"$test_name"_x3.ppm
+local txtname="$QT_RESULTS"/screenshot_"$screenshot_count"_"$test_name"
+
+if ! $QT_SCALE_COMMAND "$ppmname" -scale 300% "$ppmx3name"; then
+    qt_echo "🚨 Image scaling failed"
+    exit 1
+fi
+if ! $TESSERACT -l "$TESSERACT_LANG" "$ppmx3name" "$txtname" $TESSERACT_OCR_OPTIONS ; then
+    qt_echo "🚨 OCR failed"
+    exit 1
+fi
+rm "$ppmx3name"

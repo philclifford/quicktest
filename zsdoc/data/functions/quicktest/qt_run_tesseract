@@ -1,0 +1,5 @@
+local ocrimage="$1"
+local ocrtext="$2"
+if ! $TESSERACT -l "$TESSERACT_LANG" "$ocrimage" "$ocrtext" $TESSERACT_OCR_OPTIONS ; then
+    qt_test_fail "🚨 OCR failed"
+fi

@@ -1,0 +1,3 @@
+tty="$1"
+qt_echo "🖳 Switching to tty$tty"
+qt_sendkey "ctrl-alt-f$tty"

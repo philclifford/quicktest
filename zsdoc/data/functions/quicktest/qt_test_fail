@@ -1,0 +1,9 @@
+qt_echo "🚨 Test failed."
+qt_echo "Last error in: $1"
+qt_echo "🪵 $QT_FULL_LOG"
+qt_echo "📁 $QT_RESULTS"
+if $QT_OPEN_RESULTS ; then
+    open "$QT_RESULTS"
+fi
+qt_write_summary_log "🚨 FAIL "
+exit 99

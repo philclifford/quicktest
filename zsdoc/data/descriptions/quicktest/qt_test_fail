@@ -1,0 +1,2 @@
+# The standard place we end up when stuff fails. We then spit out the function name
+# that last called, and a link to the log and the results directory

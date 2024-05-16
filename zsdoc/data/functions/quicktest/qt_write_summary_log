@@ -1,0 +1,8 @@
+local emoji="$1"
+if [ ! $QT_SUMMARY_LOG == "" ]; then
+    local qt_end_time=$(date +%Y%m%d-%H%M%S)
+    echo "$emoji ${QT_START_TIME} ${qt_end_time} ${OS} ${RELEASE} ${EDITIONPATH} ${TESTCASE}"  >> "$QT_SUMMARY_LOG"
+    if $QT_NOTIFY ; then
+        "$QT_NOTIFY_SEND" "quicktest" "${emoji} ${OS} ${RELEASE} ${EDITIONPATH} ${TESTCASE}"
+    fi        
+fi

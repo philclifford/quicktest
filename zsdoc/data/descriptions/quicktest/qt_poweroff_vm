@@ -1,0 +1,2 @@
+# This powers off the VM, and should really only be used
+# at the end when cleaning up.

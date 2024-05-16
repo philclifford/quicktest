@@ -1,0 +1,2 @@
+qt_echo "🛜 Enabling network"
+sendkey "netdev_add nic"

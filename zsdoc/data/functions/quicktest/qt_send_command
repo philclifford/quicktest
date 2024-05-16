@@ -1,0 +1,15 @@
+local qemu_full_cmd="$1"
+local qemu_cmd="$(echo $qemu_full_cmd | awk '{print $1}')"
+local qemu_arg="$(echo $qemu_full_cmd | awk '{print $2}')"
+case "$qemu_cmd" in
+    screendump)
+        qemu_cmd="$qemu_cmd $(basename "$qemu_arg")"
+        ;;
+    *)
+        qt_echo " "
+        ;; 
+esac
+if ! echo "$qemu_full_cmd" | $QEMU_SOCKET_COMMAND > /dev/null; then
+    qt_echo "🚨 qemu command failed"
+    exit 1
+fi

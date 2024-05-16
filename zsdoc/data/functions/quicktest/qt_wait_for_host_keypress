@@ -1,0 +1,2 @@
+qt_echo "✋ Waiting for host keypress"
+read -n 1 -s -r -p "Press any key to continue"

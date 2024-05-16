@@ -1,0 +1,10 @@
+local qemu_socket="${QUICKEMU_VM_DIR}/${OS}-${RELEASE}${EDITIONSUFFIX}"/"${OS}-${RELEASE}${EDITIONSUFFIX}"-monitor.socket
+local qemu_socket_rel=$(realpath -s --relative-to=$PWD $qemu_socket)
+if [ ! -S "${qemu_socket_rel}" ]; then
+    qt_echo "🚨 QEMU socket is not found."
+    return 1
+else
+    qt_echo "ℹ️ QEMU socket is ${qemu_socket_rel}"
+    QEMU_SOCKET_COMMAND="$SOCAT - unix-connect:$qemu_socket_rel" > /dev/null
+    return 0
+fi

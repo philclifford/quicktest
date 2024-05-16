@@ -1,0 +1,9 @@
+qt_echo "🚀 quickget ${OS} ${RELEASE} ${EDITION} in ${QUICKEMU_VM_DIR}"
+pushd "${QUICKEMU_VM_DIR}" > /dev/null || return 1
+if ! $QUICKGET "${OS}" "${RELEASE}" "${EDITION}"; then
+    return 1
+else
+    qt_echo "✅ quickget succeeded."
+    popd > /dev/null || return 1
+    return 0
+fi

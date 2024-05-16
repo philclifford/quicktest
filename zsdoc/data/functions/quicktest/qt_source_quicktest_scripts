@@ -1,0 +1,11 @@
+if [ ! -f "${QT_TESTCASES_DIR}"/"${OS}"/"${RELEASE}${EDITIONPATH}"/"${TESTCASE}" ]; then
+    qt_echo "🚨 Test case ${TESTCASE} does not exist for ${OS}-${RELEASE}${EDITIONSUFFIX}."
+    exit 1
+fi
+if source "${QT_TESTCASES_DIR}"/"${OS}"/"${RELEASE}${EDITIONPATH}"/"${TESTCASE}"; then
+    qt_echo "✅ Source quicktest scripts succeeded."
+    return 0
+else
+    qt_echo "🚨 Source quicktest scripts failed."
+    return 1
+fi

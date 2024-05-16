@@ -1,0 +1,4 @@
+local input_string="$1"
+qt_echo "⌨️ Typing «$input_string» then «TAB»"
+qt_send_string "$input_string"
+qt_send_key_combo "tab"

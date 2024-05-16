@@ -1,0 +1,4 @@
+local input_string="$1"
+while IFS= read -r -n1 char; do
+    qt_send_key "$char"
+done <<< "$input_string"

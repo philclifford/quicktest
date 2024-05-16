@@ -1,0 +1,3 @@
+qt_echo "🚀 Launch test case ${OS}/${RELEASE}${EDITIONPATH}/${TESTCASE}"
+head -n 10 "${QT_TESTCASES_DIR}"/"${OS}"/"${RELEASE}${EDITIONPATH}"/"${TESTCASE}" | grep "^#"
+"$TESTCASE"

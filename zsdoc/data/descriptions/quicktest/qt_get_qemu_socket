@@ -1,0 +1,4 @@
+# We use the socket to inject keypresses into qemu, and reboot it
+# Let's make sure the socket exists, and if it does, we'll use socat as
+# the command to do the injection
+# https://gist.github.com/mvidner/8939289

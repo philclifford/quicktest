@@ -1,0 +1,10 @@
+local test_name="$1"
+QT_SCREENSHOT_COUNT=$((QT_SCREENSHOT_COUNT+1))
+local screenshot_count
+screenshot_count=$(printf "%04d" $QT_SCREENSHOT_COUNT)
+local ppmname="$QT_RESULTS"/screenshot_"$screenshot_count"_"$test_name".ppm
+qt_echo "📷 $(basename $ppmname)"
+qt_send_command "screendump $ppmname"
+if [ ! -f "$ppmname" ]; then
+    qt_test_fail "🚨 Screenshot failed"
+fi

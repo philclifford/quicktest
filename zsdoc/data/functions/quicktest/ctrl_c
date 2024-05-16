@@ -1,0 +1,2 @@
+echo "💥 Trapped CTRL-C"
+exit 99

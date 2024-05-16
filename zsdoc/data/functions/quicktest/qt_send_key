@@ -1,0 +1,8 @@
+local key_name="$1"
+if [ ! "$key_name" == "" ]; then
+    local qemu_key_name="${KEYS[$key_name]}"
+    local qemu_cmd="sendkey $qemu_key_name"
+    qt_echo "⌨️ «$key_name»"
+    echo "$qemu_cmd" | $QEMU_SOCKET_COMMAND > /dev/null
+    sleep "$QEMU_INSERT_DELAY"
+fi

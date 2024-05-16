@@ -1,0 +1,2 @@
+qt_echo "🔃 Rebooting the VM"
+qt_send_command "system_reset"

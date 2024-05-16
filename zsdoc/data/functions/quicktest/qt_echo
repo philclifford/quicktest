@@ -1,0 +1,5 @@
+if [ ! -z "$DEBUG" ]; then
+    local datestamp
+    datestamp=$(date +"%Y%m%d-%H%M%S")
+    echo "[$datestamp] $*"
+fi

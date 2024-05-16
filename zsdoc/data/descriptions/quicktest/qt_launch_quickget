@@ -1,0 +1,4 @@
+# Launch quickget to download the ISO and create the disk image
+# If the disk image already exists, we still run this, as it will
+# update the disk image if the ISO has changed (in some cases)
+# It also checks the checksum of theqt_test_fail ISO

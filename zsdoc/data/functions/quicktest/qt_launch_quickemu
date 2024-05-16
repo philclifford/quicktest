@@ -1,0 +1,35 @@
+qt_echo "🚀 Launch quickemu ${OS}-${RELEASE}${EDITIONSUFFIX}.conf in ${QUICKEMU_VM_DIR}"
+pushd "${QUICKEMU_VM_DIR}" > /dev/null || return 1
+if [ -e "${OS}-${RELEASE}${EDITIONSUFFIX}/${OS}-${RELEASE}${EDITIONSUFFIX}.pid" ]; then
+    if $QT_DISABLE_VM_RUNNING_ERROR ; then
+        qt_echo "▶️ VM is already running as expected. Continuing."
+        qt_wait_for_seconds "$QT_VM_WARNING_TIMEOUT"
+    else
+        qt_echo "⚠️ VM is already running. Stopping test case"
+        qt_test_fail "VM is already running"
+    fi
+fi
+if [ -f "${OS}-${RELEASE}${EDITIONSUFFIX}/disk.qcow2" ]; then
+    qt_echo "🖴 Disk image exists"
+    local disk_size_units=$(qemu-img info "${OS}-${RELEASE}${EDITIONSUFFIX}/disk.qcow2" | grep ^disk | awk -F ' ' '{print $4}')
+    if [ "$disk_size_units" == "GiB" ]; then
+        if $QT_DISABLE_DISK_WARNING ; then
+            qt_echo "🖴 Disk image likely contains data. Continuing."
+        else
+            qt_echo "⚠️ ${OS}-${RELEASE}${EDITIONSUFFIX}/disk.qcow2 likely contains data"
+            qt_wait_for_seconds "$QT_DISK_WARNING_TIMEOUT"
+        fi
+    fi
+else
+    qt_echo "✅ Disk image does not yet exist."
+fi
+if ! $QUICKEMU_NETWORK; then
+    qt_echo "🚨 Network is disabled"
+    QUICKEMU_OPTS="${QUICKEMU_OPTS} --offline"
+fi
+if ! $QUICKEMU $QUICKEMU_OPTS --display "$QUICKEMU_DISPLAY" --width "$QUICKEMU_WIDTH" --height "$QUICKEMU_HEIGHT" --vm "${OS}-${RELEASE}${EDITIONSUFFIX}".conf; then
+    return 0 
+else
+    popd > /dev/null || return 1
+    return 0
+fi

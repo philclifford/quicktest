@@ -1,0 +1,2 @@
+# We are a bit excessive with logging, but it's useful for debugging
+# We will likely reduce the amount it spams the console at some point

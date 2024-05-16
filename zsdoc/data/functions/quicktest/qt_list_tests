@@ -1,0 +1,23 @@
+local os
+local release
+local tmpfile
+tmpfile=$(mktemp)
+echo "Available test cases"
+echo "OS | Release / Edition | Test case | Short description" > $tmpfile
+for os in "$QT_TESTCASES_DIR"/*; do
+    if [ -d "$os" ]; then
+        if [ "$(basename $os)" == "keymaps" ]; then
+            continue
+        fi
+        for release in "$os"/*; do
+            if [ -d "$release" ]; then
+                find $release/test_* -type f |
+                while read file; do
+                    echo "$(basename $os) | $(basename $release) | $(basename $file) | $(head -n 1 "$file" | grep '^#')" >> "$tmpfile"
+                done
+            fi
+        done
+    fi
+done
+column -t -s '|' "$tmpfile"
+rm "$tmpfile"

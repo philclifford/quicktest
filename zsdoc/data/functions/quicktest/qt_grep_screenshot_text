@@ -1,0 +1,11 @@
+local searchterm="$1"
+local screenshot_count="$2"
+local ocrtext="$3"
+qt_echo "🔍 «$searchterm» in screenshot «$screenshot_count»"
+if ! grep -q "$searchterm" "$ocrtext"; then
+    qt_echo "❌ «$searchterm»"
+    return 1
+else
+    qt_echo "✅ «$searchterm»"
+    return 0
+fi

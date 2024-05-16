@@ -1,0 +1,716 @@
+quicktest(1)
+============
+:compat-mode!:
+
+NAME
+----
+quicktest - a shell script
+
+SYNOPSIS
+--------
+Documentation automatically generated with `zsdoc'
+
+FUNCTIONS
+---------
+
+ ctrl_c
+ qt_cleanup
+ qt_disable_network
+ qt_echo
+ qt_enable_network
+ qt_get_qemu_socket
+ qt_grep_screenshot_text
+ qt_launch_quickemu
+ qt_launch_quickget
+ qt_launch_testcase
+ qt_list_tests
+ qt_load_keys
+ qt_load_texts
+ qt_ocr_only
+ qt_poweroff_vm
+ qt_reboot_vm
+ qt_run_tesseract
+ qt_screenshot_ppm
+ qt_search_screenshot
+ qt_send_command
+ qt_send_key
+ qt_send_key_combo
+ qt_send_string
+ qt_send_string_return
+ qt_send_string_tab
+ qt_source_quicktest_scripts
+ qt_start_logging
+ qt_switch_to_tty
+ qt_test_fail
+ qt_test_pass
+ qt_usage
+ qt_wait_for_host_keypress
+ qt_wait_for_seconds
+ qt_wait_for_text
+ qt_write_summary_log
+
+DETAILS
+-------
+
+Script Body
+~~~~~~~~~~~
+
+Has 160 line(s). Calls functions:
+
+ Script-Body
+ |-- qt_cleanup
+ |   `-- qt_echo
+ |-- qt_get_qemu_socket
+ |   `-- qt_echo
+ |-- qt_launch_quickemu
+ |   |-- qt_echo
+ |   |-- qt_test_fail
+ |   |   |-- qt_echo
+ |   |   `-- qt_write_summary_log
+ |   `-- qt_wait_for_seconds
+ |       `-- qt_echo
+ |-- qt_launch_quickget
+ |   `-- qt_echo
+ |-- qt_launch_testcase
+ |   `-- qt_echo
+ |-- qt_list_tests
+ |-- qt_load_keys
+ |   `-- qt_echo
+ |-- qt_load_texts
+ |   `-- qt_echo
+ |-- qt_source_quicktest_scripts
+ |   `-- qt_echo
+ |-- qt_start_logging
+ |   `-- qt_echo
+ |-- qt_test_pass
+ |   |-- qt_echo
+ |   `-- qt_write_summary_log
+ `-- qt_usage
+
+Uses feature(s): _export_, _trap_
+
+_Exports (environment):_ LC_ALL
+
+ctrl_c
+~~~~~~
+
+Has 2 line(s). Doesn't call other functions.
+
+Not called by script or any function (may be e.g. command_not_found_handle or called indirectly in other way).
+
+qt_cleanup
+~~~~~~~~~~
+
+____
+ # This is where we clean up after ourselves. We optionally make a timelapse video from the screenshots
+____
+
+Has 21 line(s). Calls functions:
+
+ qt_cleanup
+ `-- qt_echo
+
+Called by:
+
+ Script-Body
+
+qt_disable_network
+~~~~~~~~~~~~~~~~~~
+
+____
+ # TODO figure out syntax
+ # As yet untested
+____
+
+Has 2 line(s). Calls functions:
+
+ qt_disable_network
+ `-- qt_echo
+
+Not called by script or any function (may be e.g. command_not_found_handle or called indirectly in other way).
+
+qt_echo
+~~~~~~~
+
+Has 5 line(s). Doesn't call other functions.
+
+Called by:
+
+ qt_cleanup
+ qt_disable_network
+ qt_enable_network
+ qt_get_qemu_socket
+ qt_grep_screenshot_text
+ qt_launch_quickemu
+ qt_launch_quickget
+ qt_launch_testcase
+ qt_load_keys
+ qt_load_texts
+ qt_ocr_only
+ qt_poweroff_vm
+ qt_reboot_vm
+ qt_screenshot_ppm
+ qt_search_screenshot
+ qt_send_command
+ qt_send_key_combo
+ qt_send_key
+ qt_send_string_return
+ qt_send_string_tab
+ qt_source_quicktest_scripts
+ qt_start_logging
+ qt_switch_to_tty
+ qt_test_fail
+ qt_test_pass
+ qt_wait_for_host_keypress
+ qt_wait_for_seconds
+ qt_wait_for_text
+
+qt_enable_network
+~~~~~~~~~~~~~~~~~
+
+____
+ # Re-enable the network by re-adding the device
+ # TODO figure out syntax
+ # As yet untested
+____
+
+Has 2 line(s). Calls functions:
+
+ qt_enable_network
+ `-- qt_echo
+
+Not called by script or any function (may be e.g. command_not_found_handle or called indirectly in other way).
+
+qt_get_qemu_socket
+~~~~~~~~~~~~~~~~~~
+
+____
+ # We use the socket to inject keypresses into qemu, and reboot it
+ # Let's make sure the socket exists, and if it does, we'll use socat as
+ # the command to do the injection
+ # https://gist.github.com/mvidner/8939289
+____
+
+Has 10 line(s). Calls functions:
+
+ qt_get_qemu_socket
+ `-- qt_echo
+
+Called by:
+
+ Script-Body
+
+qt_grep_screenshot_text
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Has 11 line(s). Calls functions:
+
+ qt_grep_screenshot_text
+ `-- qt_echo
+
+Called by:
+
+ qt_search_screenshot
+
+qt_launch_quickemu
+~~~~~~~~~~~~~~~~~~
+
+____
+ # Launch quickemu to start the VM
+____
+
+Has 35 line(s). Calls functions:
+
+ qt_launch_quickemu
+ |-- qt_echo
+ |-- qt_test_fail
+ |   |-- qt_echo
+ |   `-- qt_write_summary_log
+ `-- qt_wait_for_seconds
+     `-- qt_echo
+
+Called by:
+
+ Script-Body
+
+qt_launch_quickget
+~~~~~~~~~~~~~~~~~~
+
+____
+ # Launch quickget to download the ISO and create the disk image
+ # If the disk image already exists, we still run this, as it will
+ # update the disk image if the ISO has changed (in some cases)
+ # It also checks the checksum of theqt_test_fail ISO
+____
+
+Has 9 line(s). Calls functions:
+
+ qt_launch_quickget
+ `-- qt_echo
+
+Called by:
+
+ Script-Body
+
+qt_launch_testcase
+~~~~~~~~~~~~~~~~~~
+
+____
+ # Here we actually launch the test case. 
+____
+
+Has 3 line(s). Calls functions:
+
+ qt_launch_testcase
+ `-- qt_echo
+
+Called by:
+
+ Script-Body
+
+qt_list_tests
+~~~~~~~~~~~~~
+
+____
+ # List all available tests from the tests directory. 
+ # Each test can put a few lines of comments at the top. We output them
+ # here so you can get a list with a description of each one.
+____
+
+Has 23 line(s). Doesn't call other functions.
+
+Uses feature(s): _read_
+
+Called by:
+
+ Script-Body
+
+qt_load_keys
+~~~~~~~~~~~~
+
+____
+ # Load in the key map things for Qemu.
+____
+
+Has 7 line(s). Calls functions:
+
+ qt_load_keys
+ `-- qt_echo
+
+Uses feature(s): _source_
+
+Called by:
+
+ Script-Body
+
+qt_load_texts
+~~~~~~~~~~~~~
+
+Has 9 line(s). Calls functions:
+
+ qt_load_texts
+ `-- qt_echo
+
+Uses feature(s): _source_
+
+Called by:
+
+ Script-Body
+
+qt_ocr_only
+~~~~~~~~~~~
+
+Has 16 line(s). Calls functions:
+
+ qt_ocr_only
+ `-- qt_echo
+
+Not called by script or any function (may be e.g. command_not_found_handle or called indirectly in other way).
+
+qt_poweroff_vm
+~~~~~~~~~~~~~~
+
+____
+ # This powers off the VM, and should really only be used
+ # at the end when cleaning up.
+____
+
+Has 11 line(s). Calls functions:
+
+ qt_poweroff_vm
+ `-- qt_echo
+
+Uses feature(s): _kill_
+
+Not called by script or any function (may be e.g. command_not_found_handle or called indirectly in other way).
+
+qt_reboot_vm
+~~~~~~~~~~~~
+
+____
+ # A rather brutal way to turn the VM off and on again
+____
+
+Has 2 line(s). Calls functions:
+
+ qt_reboot_vm
+ |-- qt_echo
+ `-- qt_send_command
+     `-- qt_echo
+
+Not called by script or any function (may be e.g. command_not_found_handle or called indirectly in other way).
+
+qt_run_tesseract
+~~~~~~~~~~~~~~~~
+
+Has 5 line(s). Calls functions:
+
+ qt_run_tesseract
+ `-- qt_test_fail
+     |-- qt_echo
+     `-- qt_write_summary_log
+
+Called by:
+
+ qt_search_screenshot
+
+qt_screenshot_ppm
+~~~~~~~~~~~~~~~~~
+
+____
+ ### SCREENSHOT - functions to take screenshots and search for text
+____
+
+Has 10 line(s). Calls functions:
+
+ qt_screenshot_ppm
+ |-- qt_echo
+ |-- qt_send_command
+ |   `-- qt_echo
+ `-- qt_test_fail
+     |-- qt_echo
+     `-- qt_write_summary_log
+
+Called by:
+
+ qt_wait_for_text
+
+qt_search_screenshot
+~~~~~~~~~~~~~~~~~~~~
+
+Has 19 line(s). Calls functions:
+
+ qt_search_screenshot
+ |-- qt_echo
+ |-- qt_grep_screenshot_text
+ |   `-- qt_echo
+ `-- qt_run_tesseract
+     `-- qt_test_fail
+         |-- qt_echo
+         `-- qt_write_summary_log
+
+Called by:
+
+ qt_wait_for_text
+
+qt_send_command
+~~~~~~~~~~~~~~~
+
+Has 15 line(s). Calls functions:
+
+ qt_send_command
+ `-- qt_echo
+
+Called by:
+
+ qt_reboot_vm
+ qt_screenshot_ppm
+
+qt_send_key
+~~~~~~~~~~~
+
+____
+ # This similar but only sends a single key and references the
+  # keys look up list to map the legend on the key to the names
+  # by which qemu knows them.
+  # e.g. M is shift-m.
+  
+____
+
+Has 8 line(s). Calls functions:
+
+ qt_send_key
+ `-- qt_echo
+
+Called by:
+
+ qt_send_string
+
+qt_send_key_combo
+~~~~~~~~~~~~~~~~~
+
+____
+ # This sends a key-combo like ctrl-alt-delete or 
+ # meta_l-up to maximise a window
+____
+
+Has 5 line(s). Calls functions:
+
+ qt_send_key_combo
+ `-- qt_echo
+
+Called by:
+
+ qt_send_string_return
+ qt_send_string_tab
+
+qt_send_string
+~~~~~~~~~~~~~~
+
+____
+ # Useful for typing in a word, or a command, or a password
+____
+
+Has 4 line(s). Calls functions:
+
+ qt_send_string
+ `-- qt_send_key
+     `-- qt_echo
+
+Called by:
+
+ qt_send_string_return
+ qt_send_string_tab
+
+qt_send_string_return
+~~~~~~~~~~~~~~~~~~~~~
+
+____
+ # A simple helper that types the string and then presses return key
+____
+
+Has 4 line(s). Calls functions:
+
+ qt_send_string_return
+ |-- qt_echo
+ |-- qt_send_key_combo
+ |   `-- qt_echo
+ `-- qt_send_string
+     `-- qt_send_key
+         `-- qt_echo
+
+Not called by script or any function (may be e.g. command_not_found_handle or called indirectly in other way).
+
+qt_send_string_tab
+~~~~~~~~~~~~~~~~~~
+
+____
+ # Function to send a series of keypresses followed by tab key
+____
+
+Has 4 line(s). Calls functions:
+
+ qt_send_string_tab
+ |-- qt_echo
+ |-- qt_send_key_combo
+ |   `-- qt_echo
+ `-- qt_send_string
+     `-- qt_send_key
+         `-- qt_echo
+
+Not called by script or any function (may be e.g. command_not_found_handle or called indirectly in other way).
+
+qt_source_quicktest_scripts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+____
+ # Load in the actual test case we're about to launch
+____
+
+Has 11 line(s). Calls functions:
+
+ qt_source_quicktest_scripts
+ `-- qt_echo
+
+Uses feature(s): _source_
+
+Called by:
+
+ Script-Body
+
+qt_start_logging
+~~~~~~~~~~~~~~~~
+
+____
+ # We are a bit excessive with logging, but it's useful for debugging
+ # We will likely reduce the amount it spams the console at some point
+____
+
+Has 4 line(s). Calls functions:
+
+ qt_start_logging
+ `-- qt_echo
+
+Uses feature(s): _trap_
+
+Called by:
+
+ Script-Body
+
+qt_switch_to_tty
+~~~~~~~~~~~~~~~~
+
+____
+ # Functions to handle using the TTY console from the qemu monitor 
+ # This could be useful to run commands on the host by logging in from the
+ # console, or to switch to a different TTY to see what's happening or
+ # capture logs
+____
+
+Has 3 line(s). Calls functions:
+
+ qt_switch_to_tty
+ `-- qt_echo
+
+Not called by script or any function (may be e.g. command_not_found_handle or called indirectly in other way).
+
+qt_test_fail
+~~~~~~~~~~~~
+
+____
+ # The standard place we end up when stuff fails. We then spit out the function name
+ # that last called, and a link to the log and the results directory
+____
+
+Has 9 line(s). Calls functions:
+
+ qt_test_fail
+ |-- qt_echo
+ `-- qt_write_summary_log
+
+Called by:
+
+ qt_launch_quickemu
+ qt_run_tesseract
+ qt_screenshot_ppm
+ qt_wait_for_text
+
+qt_test_pass
+~~~~~~~~~~~~
+
+____
+ # Sometimes the tests pass. This is where we end up when that happens
+____
+
+Has 7 line(s). Calls functions:
+
+ qt_test_pass
+ |-- qt_echo
+ `-- qt_write_summary_log
+
+Called by:
+
+ Script-Body
+
+qt_usage
+~~~~~~~~
+
+____
+ # I love Frank, Ian and Glenn, and their letters. They're the best.
+____
+
+Has 23 line(s). Doesn't call other functions.
+
+Called by:
+
+ Script-Body
+
+qt_wait_for_host_keypress
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+____
+ # This shouldn't be used in real tests I supsect but only for debugging
+____
+
+Has 2 line(s). Calls functions:
+
+ qt_wait_for_host_keypress
+ `-- qt_echo
+
+Uses feature(s): _read_
+
+Not called by script or any function (may be e.g. command_not_found_handle or called indirectly in other way).
+
+qt_wait_for_seconds
+~~~~~~~~~~~~~~~~~~~
+
+____
+ # A simple sleep to wait for a bit. We should try and avoid using
+ # these if possible, so tests can go faster, and not have random
+ # delays. However, sometimes we need to wait for something to happen
+____
+
+Has 4 line(s). Calls functions:
+
+ qt_wait_for_seconds
+ `-- qt_echo
+
+Called by:
+
+ qt_launch_quickemu
+ qt_wait_for_text
+
+qt_wait_for_text
+~~~~~~~~~~~~~~~~
+
+____
+ # This is way more useful than the above, as it waits for a specific
+ # piece of text to appear on the screen. We take a screenshot and then
+ # use tessaract to OCR the text. We can then search for the text in the
+ # resulting output. We can also invert the image and try again, as some
+ # text might be hard for tesseract to read in the default format.
+ # Note that we also specify a number of retries and an interval between
+ # each try. This is useful because people have different speed computers
+ # making it hard to know when a task is done. So we just do what a human does,
+ # and look at the screen until we see what we want.
+ # For a long running event like an install doing copying of files, which may take
+ # 10 minutes or more, perhaps have 10 retries with a 60 second interval.
+____
+
+Has 13 line(s). Calls functions:
+
+ qt_wait_for_text
+ |-- qt_echo
+ |-- qt_screenshot_ppm
+ |   |-- qt_echo
+ |   |-- qt_send_command
+ |   |   `-- qt_echo
+ |   `-- qt_test_fail
+ |       |-- qt_echo
+ |       `-- qt_write_summary_log
+ |-- qt_search_screenshot
+ |   |-- qt_echo
+ |   |-- qt_grep_screenshot_text
+ |   |   `-- qt_echo
+ |   `-- qt_run_tesseract
+ |       `-- qt_test_fail
+ |           |-- qt_echo
+ |           `-- qt_write_summary_log
+ |-- qt_test_fail
+ |   |-- qt_echo
+ |   `-- qt_write_summary_log
+ `-- qt_wait_for_seconds
+     `-- qt_echo
+
+Not called by script or any function (may be e.g. command_not_found_handle or called indirectly in other way).
+
+qt_write_summary_log
+~~~~~~~~~~~~~~~~~~~~
+
+Has 8 line(s). Doesn't call other functions.
+
+Called by:
+
+ qt_test_fail
+ qt_test_pass
+

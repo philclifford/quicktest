@@ -1,0 +1,3 @@
+# A simple sleep to wait for a bit. We should try and avoid using
+# these if possible, so tests can go faster, and not have random
+# delays. However, sometimes we need to wait for something to happen

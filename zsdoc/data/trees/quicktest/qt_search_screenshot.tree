@@ -1,0 +1,10 @@
+qt_search_screenshot
+|-- qt_echo
+|-- qt_grep_screenshot_text
+|   `-- qt_echo
+`-- qt_run_tesseract
+    `-- qt_test_fail
+        |-- qt_echo
+        `-- qt_write_summary_log
+
+7 directories, 0 files

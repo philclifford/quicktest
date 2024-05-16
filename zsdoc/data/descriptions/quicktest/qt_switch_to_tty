@@ -1,0 +1,4 @@
+# Functions to handle using the TTY console from the qemu monitor 
+# This could be useful to run commands on the host by logging in from the
+# console, or to switch to a different TTY to see what's happening or
+# capture logs

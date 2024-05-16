@@ -1,0 +1,2 @@
+qt_echo "🛜 Disabling network"
+sendkey "netdev_del id=nic"

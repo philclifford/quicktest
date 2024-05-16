@@ -1,0 +1,21 @@
+qt_echo "🧼 Cleanup"
+pushd "$QT_RESULTS" > /dev/null || return 1
+if $QT_CREATE_TIMELAPSE ; then
+    qt_echo "📹 Making video"
+    if ! $FFMPEG -hide_banner -loglevel error -framerate 1/3 -pattern_type glob -i 'screenshot_*.ppm' -c:v libx264 -pix_fmt yuv420p "$QT_TIMELAPSE_VIDEO"; then
+        qt_echo "🚨 ffmpeg failed"
+    fi 
+fi
+if $QT_KEEP_SCREENSHOTS ; then
+    qt_echo "ℹ️ Keeping images as requested"
+else
+    qt_echo "ℹ️ Removing images as requested"
+    rm screenshot_*.ppm
+fi
+if $QT_KEEP_TESSERACT_TEXT ; then
+    qt_echo "ℹ️ Keeping text files as requested"
+else
+    qt_echo "ℹ️ Removing text files as requested"
+    rm screenshot_*.txt
+fi
+popd > /dev/null || return 1

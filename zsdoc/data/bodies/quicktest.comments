@@ -1,0 +1,271 @@
+#!/usr/bin/env bash
+
+# Quicktest - A script to automate testing of software in Quickemu VMs
+# Copyright (C) 2024  Alan Pope
+# SPDX-License-Identifier: MIT
+
+# Whoami!?
+
+# Whereami!?
+
+# What time is it? (used in log file names)
+
+# Lots of echo or not so much?
+# This maybe needs work, as we're already pretty
+# frugal with the output. But we can always add more
+
+# A one line per testcase run summary log file. Essentially success or failure
+
+# Filename of the main log file generated on a per-testcase basis
+# The full path is set further down once the generated QT_RESULTS
+# folder is known and created
+
+# The location where the test case scripts are located
+
+# Location of the keymaps for qemu
+
+# Notify the user with a desktop notification when the test
+# is successful or fails
+
+# The location where quickget and quickemu will run, and thus
+# store the downloaded ISO files and disk images
+
+# The display type used by quickemu when it launches qemu
+# This can be 'none' for none, 'spice' for a spice viewer
+
+# The default resolution of the VM display
+# Make sure these are divisible by 8 or qemu freaks out
+# but it will look fine in spice viewer. However any 
+# screenshots will be distorted like trapezoid.
+
+# By default we expect the VM to have a network connection
+# however, some tests may behave differently with no network
+# So within those tests they should be able to disable the network
+# This variable can then be used to determine if the network is 
+# enabled or disabled
+
+# There may be new options to pass to quickemu, so we allow
+# the user to specify them here.
+
+# We should figure out which tesseract options are optimal
+# for doing OCR of screenshots from the VM
+# Each test case can override this
+# The tessedit_write_images can be useful for peeking into the
+# internal analysis that tesseract does. It can be useful for 
+# seeing what tesseract sees.
+# Note --psm and -l must come before the others, if specified
+#TESSERACT_OCR_OPTIONS="--loglevel ALL -c tessedit_write_images=true"
+
+# We scale up images by 3x which might not be necessary in some cases.
+# Set this to zero to disable scaling. Otherwise it's a percentage
+
+# The command we use to convert images.
+
+# Currently we default keyboard layout to en_US, but this
+# can be overridden by each test case
+# Note however that a keymaps/la_CO file must exist. Use
+# keymaps/en_US as a template
+
+# If screenshots are taken, they're then turned into a compilation
+# timelapse video and the images are removed. This can be overridden
+# by each test case
+
+# If we use tesseract-ocr to create text files from screenshots
+# we can choose to keep those text file results or not. The text files
+# can be useful for determining what went wrong in a test, and they
+# may also be useful for identifying what text on the screen was recognised
+# and so what should be included in test cases or not.
+
+# After a successful run, we can create a timelapse video of the
+# screenshots taken during the test. This can be overridden by each
+# test case. But we still ask for ffmpeg to be installed.
+
+# The output video path and filename
+
+# Screenshots have a sequentially increasing number, as well as a
+# descriptive test case in the file name. This is the counter.
+
+# A tiny delay after each key-press inserted into qemu
+
+# A timeout which is used when quicktest detects that the VM is already running
+# We show a message warning the user, so they have an opportunity to let the timer
+# run out, or press ctrl-c to stop the script before it does something unexpected
+
+# You can disable the error about the VM already running if you want, which may
+# be useful for follow-on tests which expect the VM to be running
+# Can be overridden in specific tests that need it
+
+# Similarly to the above, we have a timeout for when quicktest detects that the disk
+# has been modified.
+
+# You can disable the warning about the disk image being modified if you want, which may
+# be useful for follow-on tests which expect the disk to be modified (e.g. by an installer)
+# Can be overridden in specific tests that need it
+
+# At the end of the test run, once everything is complete, we use `open` to pop open the
+# default file manager on the host, showing the results of the test, as a convenience. 
+# quicktest is typically used on a QA person's machine, but may also be run in some CI
+# farm. So it's possible to disbale this behaviour.
+
+# Minimum version of quickemu required
+
+# Array of key mappings for qemu - e.g. M is shift-m
+# Each test case can override this, and each test case
+# may have only one, or many langiage files to support this
+# This is especially important when entering passwords
+# in the VM as they're not visible.
+
+# We need Bash 4.x or newer for this script
+
+# Catch ctrl+c because we don't want to have to stab it numerous times
+# to get out of all these nested scripts when things Go Bad(TM)
+# trap ctrl-c and call ctrl_c()
+
+# We are a bit excessive with logging, but it's useful for debugging
+# We will likely reduce the amount it spams the console at some point
+
+# I love Frank, Ian and Glenn, and their letters. They're the best.
+
+# List all available tests from the tests directory. 
+# Each test can put a few lines of comments at the top. We output them
+# here so you can get a list with a description of each one.
+
+###
+### SNIPPETS - functions used by tests
+###
+###
+### NETWORK - functions to enable and disable or otherwise
+###           manipulate the network
+
+# Re-enable the network by re-adding the device
+# TODO figure out syntax
+# As yet untested
+
+# TODO figure out syntax
+# As yet untested
+
+###
+### WAIT - functions to wait for various OS events to occur
+###
+
+# A simple sleep to wait for a bit. We should try and avoid using
+# these if possible, so tests can go faster, and not have random
+# delays. However, sometimes we need to wait for something to happen
+
+# This shouldn't be used in real tests I supsect but only for debugging
+
+
+# This is way more useful than the above, as it waits for a specific
+# piece of text to appear on the screen. We take a screenshot and then
+# use tessaract to OCR the text. We can then search for the text in the
+# resulting output. We can also invert the image and try again, as some
+# text might be hard for tesseract to read in the default format.
+# Note that we also specify a number of retries and an interval between
+# each try. This is useful because people have different speed computers
+# making it hard to know when a task is done. So we just do what a human does,
+# and look at the screen until we see what we want.
+# For a long running event like an install doing copying of files, which may take
+# 10 minutes or more, perhaps have 10 retries with a 60 second interval.
+
+###
+### TTY - functions to handle using the TTY console from the qemu monitor
+###
+
+# Functions to handle using the TTY console from the qemu monitor 
+# This could be useful to run commands on the host by logging in from the
+# console, or to switch to a different TTY to see what's happening or
+# capture logs
+
+###
+### SYSTEM - functions to manipulate the VM system
+###
+
+# A rather brutal way to turn the VM off and on again
+
+# This powers off the VM, and should really only be used
+# at the end when cleaning up.
+
+###
+### KEYBOARD - functions to manipulate the VM keyboard
+###
+
+# This sends a key-combo like ctrl-alt-delete or 
+# meta_l-up to maximise a window
+
+ # This similar but only sends a single key and references the
+ # keys look up list to map the legend on the key to the names
+ # by which qemu knows them.
+ # e.g. M is shift-m.
+
+# Useful for typing in a word, or a command, or a password
+
+# A simple helper that types the string and then presses return key
+
+# Function to send a series of keypresses followed by tab key
+
+###
+### MOUSE - functions to manipulate the VM mouse
+###
+
+## TODO: move mouse, and mouse click functions
+
+### SCREENSHOT - functions to take screenshots and search for text
+
+
+# Load in the actual test case we're about to launch
+
+# Launch quickget to download the ISO and create the disk image
+# If the disk image already exists, we still run this, as it will
+# update the disk image if the ISO has changed (in some cases)
+# It also checks the checksum of theqt_test_fail ISO
+
+# Launch quickemu to start the VM
+
+# We use the socket to inject keypresses into qemu, and reboot it
+# Let's make sure the socket exists, and if it does, we'll use socat as
+# the command to do the injection
+# https://gist.github.com/mvidner/8939289
+
+# Load in the key map things for Qemu.
+
+# Here we actually launch the test case.
+
+# The standard place we end up when stuff fails. We then spit out the function name
+# that last called, and a link to the log and the results directory
+
+# Sometimes the tests pass. This is where we end up when that happens
+
+# This is where we clean up after ourselves. We optionally make a timelapse video from the screenshots
+
+###
+### MAIN
+###
+
+# Take command line arguments
+
+# Check for required commands
+
+# Set edition suffix if needed
+
+# We source the quicktest scripts, because they may override sett
+
+# Start logging
+
+# We start by running whatever is necessary to configure the test
+# This function lives inside the test, and it maybe change 
+# quickget or quickemu launch settings, so that's why we run it here.
+
+# Run quickget to get (or check) the install image
+
+# Launch the VM
+
+# Obtain the socket from Qemu so wQEMUe can poke keypresses into the VM
+# and trigger screenshot captures
+
+# Load the keymaps which map keys for different layouts
+
+# Finally we launch the actual test case.
+
+# If the test case passes, we clean up after ourselves
+
+# Fin

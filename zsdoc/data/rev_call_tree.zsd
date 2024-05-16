@@ -1,0 +1,24 @@
+quicktest/qt_cleanup:  quicktest/zsd_script_body
+quicktest/qt_echo:  quicktest/qt_start_logging  quicktest/qt_enable_network  quicktest/qt_disable_network  quicktest/qt_wait_for_seconds  quicktest/qt_wait_for_host_keypress  quicktest/qt_wait_for_text  quicktest/qt_switch_to_tty  quicktest/qt_reboot_vm  quicktest/qt_poweroff_vm  quicktest/qt_send_key_combo  quicktest/qt_send_key  quicktest/qt_send_string_return  quicktest/qt_send_string_tab  quicktest/qt_send_command  quicktest/qt_screenshot_ppm  quicktest/qt_grep_screenshot_text  quicktest/qt_search_screenshot  quicktest/qt_ocr_only  quicktest/qt_source_quicktest_scripts  quicktest/qt_launch_quickget  quicktest/qt_launch_quickemu  quicktest/qt_get_qemu_socket  quicktest/qt_load_texts  quicktest/qt_load_keys  quicktest/qt_launch_testcase  quicktest/qt_test_fail  quicktest/qt_test_pass  quicktest/qt_cleanup
+quicktest/qt_get_qemu_socket:  quicktest/zsd_script_body
+quicktest/qt_grep_screenshot_text:  quicktest/qt_search_screenshot
+quicktest/qt_launch_quickemu:  quicktest/zsd_script_body
+quicktest/qt_launch_quickget:  quicktest/zsd_script_body
+quicktest/qt_launch_testcase:  quicktest/zsd_script_body
+quicktest/qt_list_tests:  quicktest/zsd_script_body
+quicktest/qt_load_keys:  quicktest/zsd_script_body
+quicktest/qt_load_texts:  quicktest/zsd_script_body
+quicktest/qt_run_tesseract:  quicktest/qt_search_screenshot
+quicktest/qt_screenshot_ppm:  quicktest/qt_wait_for_text
+quicktest/qt_search_screenshot:  quicktest/qt_wait_for_text
+quicktest/qt_send_command:  quicktest/qt_reboot_vm  quicktest/qt_screenshot_ppm
+quicktest/qt_send_key:  quicktest/qt_send_string
+quicktest/qt_send_key_combo:  quicktest/qt_send_string_return  quicktest/qt_send_string_tab
+quicktest/qt_send_string:  quicktest/qt_send_string_return  quicktest/qt_send_string_tab
+quicktest/qt_source_quicktest_scripts:  quicktest/zsd_script_body
+quicktest/qt_start_logging:  quicktest/zsd_script_body
+quicktest/qt_test_fail:  quicktest/qt_wait_for_text  quicktest/qt_screenshot_ppm  quicktest/qt_run_tesseract  quicktest/qt_launch_quickemu
+quicktest/qt_test_pass:  quicktest/zsd_script_body
+quicktest/qt_usage:  quicktest/zsd_script_body
+quicktest/qt_wait_for_seconds:  quicktest/qt_wait_for_text  quicktest/qt_launch_quickemu
+quicktest/qt_write_summary_log:  quicktest/qt_test_fail  quicktest/qt_test_pass

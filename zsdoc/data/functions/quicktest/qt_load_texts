@@ -1,0 +1,9 @@
+local lang="${QT_TESTCASES_DIR}"/"${OS}"/"${RELEASE}${EDITIONPATH}"/i18n/"$QT_TEST_LANG"
+if [ -e "$lang" ]; then
+    source "$lang"
+    qt_echo "✅ Load texts succeeded."
+    return 0
+else
+    qt_echo "🚨 Load texts failed."
+    return 1
+fi

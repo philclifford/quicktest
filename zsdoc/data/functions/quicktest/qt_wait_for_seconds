@@ -1,0 +1,4 @@
+local seconds="$1"
+qt_echo "⏳ $seconds s"
+local seconds=$1
+sleep "$seconds"

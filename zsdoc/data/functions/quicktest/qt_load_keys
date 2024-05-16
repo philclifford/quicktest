@@ -1,0 +1,7 @@
+if [ -f "${QT_KEYMAPS_DIR}/${QT_TEST_LANG}" ]; then
+    source "${QT_KEYMAPS_DIR}/${QT_TEST_LANG}"
+    qt_echo "✅ Load keys succeeded."
+    return 0
+else
+    return 1
+fi

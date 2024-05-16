@@ -1,0 +1,11 @@
+qt_echo "🔌 Powering off the VM"
+local quickemu_pid=""
+quickemu_pid="${QUICKEMU_VM_DIR}/${OS}-${RELEASE}${EDITIONSUFFIX}/${OS}-${RELEASE}${EDITIONSUFFIX}.pid"
+if [ -e "$quickemu_pid"  ]; then
+    if ! kill $(cat "$quickemu_pid"); then
+        qt_echo "🚨 Failed to power off the VM"
+        exit 1
+    else
+        rm "$quickemu_pid"
+    fi
+fi

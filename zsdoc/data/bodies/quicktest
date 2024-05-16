@@ -1,0 +1,160 @@
+
+export LC_ALL=C
+
+readonly VERSION="0.2.4"
+LAUNCHER=$(basename "${0}")
+readonly QT_SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+QT_START_TIME=$(date +%Y%m%d-%H%M%S)
+DEBUG=true
+QT_SUMMARY_LOG="${QT_SUMMARY_LOG:-$QT_SCRIPT_DIR/quicktest.log}"
+QT_LOG="${QT_LOG:-quicktest.log}"
+QT_TESTCASES_DIR="${QT_TESTCASES_DIR:-$QT_SCRIPT_DIR/testcases}"
+QT_KEYMAPS_DIR="${QT_KEYMAPS_DIR:-$QT_TESTCASES_DIR/keymaps}"
+QT_NOTIFY="${QT_NOTIFY:-true}"
+QUICKEMU_VM_DIR="${QUICKEMU_VM_DIR:-$QT_SCRIPT_DIR/machines}"
+QUICKEMU_DISPLAY="${QUICKEMU_DISPLAY:-spice}"
+QUICKEMU_WIDTH="${QUICKEMU_WIDTH:-1408}"
+QUICKEMU_HEIGHT="${QUICKEMU_HEIGHT:-792}"
+QUICKEMU_NETWORK="${QUICKEMU_NETWORK:-true}"
+QUICKEMU_OPTS="${QUICKEMU_OPTS:-}"
+TESSERACT_OCR_OPTIONS="${TESSERACT_OCR_OPTIONS:---loglevel OFF quiet}"
+QT_SCALE_IMAGE="${QT_SCALE_IMAGE_PC:-300%}" 
+QT_SCALE_COMMAND="${QT_SCALE_COMMAND:-/usr/bin/convert}"
+QT_TEST_LANG="${QT_TEST_LANG:-en_US}"
+
+TESSERACT_LANG="${TESSERACT_LANG:-eng}"
+QT_KEEP_SCREENSHOTS="${QT_KEEP_SCREENSHOTS:-false}"
+QT_KEEP_TESSERACT_TEXT="${QT_KEEP_TESSERACT_TEXT:-false}"
+QT_CREATE_TIMELAPSE="${QT_CREATE_TIMELAPSE:-true}"
+QT_TIMELAPSE_VIDEO="${QT_TIMELAPSE_VIDEO:-quicktest.mp4}"
+QT_SCREENSHOT_COUNT="${QT_SCREENSHOT_COUNT:-0}"
+QEMU_INSERT_DELAY="${QEMU_INSERT_DELAY:-0.2}"
+QT_VM_WARNING_TIMEOUT="${QT_VM_WARNING_TIMEOUT:-10}"
+QT_DISABLE_VM_RUNNING_ERROR="${QT_DISABLE_VM_RUNNING_ERROR:-false}" 
+QT_DISK_WARNING_TIMEOUT="${QT_DISK_WARNING_TIMEOUT:-10}"
+QT_DISABLE_DISK_WARNING="${QT_DISABLE_DISK_WARNING:-false}"
+QT_OPEN_RESULTS="${QT_OPEN_RESULTS:-true}"
+QUICKEMU_MIN_VERSION="4.9.4"
+declare -A KEYS
+if ((BASH_VERSINFO[0] < 4)); then
+    echo "🚨 Sorry, you need bash 4.0 or newer to run this script."
+    exit 1
+fi
+trap ctrl_c INT
+if [ $# -lt 1 ]; then
+    qt_usage
+    exit 0
+else    case "${1}" in
+    --list-tests|-ls)
+        qt_list_tests
+        exit;;
+    -version|--version|-v)
+        echo "quickemu ${VERSION}"
+        exit;;
+    -h|--h|-help|--help)
+        qt_usage
+        exit;;
+    *)
+        TESTCASE="${1}"
+        if [ -z "$(find "${QT_TESTCASES_DIR}" -type f -name "${TESTCASE}")" ]; then
+            echo "🚨 Test case ${TESTCASE} does not exist."
+            exit 1
+        fi
+        shift
+
+        OS=${1:-"ubuntu"}
+        shift
+
+        RELEASE=${1:-"24.04"}
+        shift
+
+        EDITION=${1:-""}
+        ;;
+    esac
+fi
+if $CREATE_TIMELAPSE && ! FFMPEG=$(command -v ffmpeg); then
+    echo "🚨 ffmpeg is not found."
+    exit 1
+fi
+if ! SOCAT=$(command -v socat); then
+    echo "🚨 socat is not found."
+    exit 1
+fi
+if ! TESSERACT=$(command -v tesseract); then
+    echo "🚨 tesseract is not found."
+    exit 1
+fi
+if ! QUICKEMU=$(command -v quickemu); then
+    echo "🚨 quickemu is not found."
+    exit 1
+else
+    if ! $QUICKEMU --version | grep -q "$QUICKEMU_MIN_VERSION"; then
+        echo "🚨 quickemu version $QUICKEMU_MIN_VERSION or newer is required."
+        exit 1
+    else 
+        QUICKEMU_VER_LONG=$($QUICKEMU --version)
+    fi
+fi
+if $QT_NOTIFY; then
+    if ! QT_NOTIFY_SEND=$(command -v notify-send); then
+        echo "🚨 notify-send is not found."
+    fi
+fi
+if ! QUICKGET=$(command -v quickget); then
+    echo "🚨 quickget is not found."
+    exit 1
+fi
+if [ ! "${EDITION}" == "" ]; then
+    EDITIONSUFFIX="-${EDITION}"
+    EDITIONPATH="/${EDITION}"
+else
+    EDITIONSUFFIX=""
+    EDITIONPATH=""
+fi
+
+QT_RESULTS="$(pwd)/results/${OS}/${RELEASE}${EDITIONPATH}/${TESTCASE}/${QT_START_TIME}"
+QT_FULL_LOG="$QT_RESULTS/$QT_LOG"
+
+if  ! mkdir -p "$QT_RESULTS";  then
+    echo "🚨 Failed to create results directory."
+    exit 1
+fi
+if ! qt_source_quicktest_scripts; then
+    echo "🚨 Source quicktest scripts failed."
+    exit 1
+fi
+if ! qt_start_logging ; then
+    echo "🚨 Start logging failed."
+    exit 1
+fi
+if ! test_setup; then
+    echo "🚨 Test setup failed."
+    exit 1
+fi
+if ! qt_launch_quickget; then
+    echo "🚨 quickget failed."
+    exit 1
+fi
+if ! qt_launch_quickemu; then
+    echo "🚨 quickemu failed."
+    exit 1
+fi
+if ! qt_get_qemu_socket; then
+    echo "🚨 Qemu socket is not found."
+    exit 1
+fi
+if ! qt_load_keys; then
+    echo "🚨 Load keys ${QT_KEYMAPS_DIR}/${QT_TEST_LANG} failed."
+    exit 1
+fi
+
+if ! qt_load_texts; then
+    echo "🚨 Load texts ${QT_TEXTS_DIR}/${QT_TEST_LANG} failed."
+    exit 1
+fi
+if ! qt_launch_testcase; then
+    echo "🚨 Test case ${TESTCASE} failed."
+    exit 1
+fi
+qt_cleanup
+qt_test_pass "${TESTCASE}"

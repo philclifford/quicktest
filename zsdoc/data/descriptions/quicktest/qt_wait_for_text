@@ -1,0 +1,11 @@
+# This is way more useful than the above, as it waits for a specific
+# piece of text to appear on the screen. We take a screenshot and then
+# use tessaract to OCR the text. We can then search for the text in the
+# resulting output. We can also invert the image and try again, as some
+# text might be hard for tesseract to read in the default format.
+# Note that we also specify a number of retries and an interval between
+# each try. This is useful because people have different speed computers
+# making it hard to know when a task is done. So we just do what a human does,
+# and look at the screen until we see what we want.
+# For a long running event like an install doing copying of files, which may take
+# 10 minutes or more, perhaps have 10 retries with a 60 second interval.

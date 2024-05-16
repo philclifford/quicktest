@@ -1,0 +1,6 @@
+qt_run_tesseract
+`-- qt_test_fail
+    |-- qt_echo
+    `-- qt_write_summary_log
+
+3 directories, 0 files

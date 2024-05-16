@@ -1,0 +1,19 @@
+local test_name="$1"
+local searchterm="$2"
+local screenshot_count
+screenshot_count=$(printf "%04d" $QT_SCREENSHOT_COUNT)
+local dumpedimage="$QT_RESULTS"/screenshot_"$screenshot_count"_"$test_name"
+local ocrtext=$dumpedimage
+if [ "$QT_SCALE_IMAGE" == "0" ]; then
+    local scaledimage
+    if ! $QT_SCALE_COMMAND "$dumpedimage".ppm -scale "$QT_SCALE_IMAGE" "$scaledimage.ppm"; then
+        qt_echo "🚨 Image scaling failed"
+        exit 1
+    else
+        qt_run_tesseract "$scaledimage.ppm" "$ocrtext"
+        rm "$scaledimage.ppm"
+    fi
+else
+    qt_run_tesseract "$dumpedimage.ppm" "$ocrtext"
+fi
+qt_grep_screenshot_text "$searchterm" "$screenshot_count" "$ocrtext.txt"

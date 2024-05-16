@@ -1,0 +1,5 @@
+# This similar but only sends a single key and references the
+ # keys look up list to map the legend on the key to the names
+ # by which qemu knows them.
+ # e.g. M is shift-m.
+ 

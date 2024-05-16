@@ -1,0 +1,5 @@
+local key_combo="$1"
+qt_echo "⌨️ «$key_combo»"
+local qemu_cmd="sendkey $key_combo"
+echo "$qemu_cmd" | $QEMU_SOCKET_COMMAND > /dev/null
+sleep "$QEMU_INSERT_DELAY"
