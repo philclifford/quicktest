@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 export LC_ALL=C
 
+#{{{summary
 # Quicktest - A script to automate testing of software in Quickemu VMs
 # Copyright (C) 2024  Alan Pope
 # SPDX-License-Identifier: MIT
+#}}}
 
 readonly VERSION="0.2.2"
 
@@ -269,6 +271,10 @@ function qt_disable_network() {
 # A simple sleep to wait for a bit. We should try and avoid using
 # these if possible, so tests can go faster, and not have random
 # delays. However, sometimes we need to wait for something to happen
+# Function: qt_wait_for_seconds
+# Description: This function waits for the specified number of seconds.
+# Parameters:
+#   - seconds: The number of seconds to wait.
 function qt_wait_for_seconds() {
     local seconds="$1"
     qt_echo "⏳ $seconds s"
@@ -294,6 +300,21 @@ function qt_wait_for_host_keypress() {
 # and look at the screen until we see what we want.
 # For a long running event like an install doing copying of files, which may take
 # 10 minutes or more, perhaps have 10 retries with a 60 second interval.
+# Function: qt_wait_for_text
+#
+# Description:
+#   This function waits for the specified text to appear in a screenshot. It takes four parameters:
+#   - test_name: The name of the test.
+#   - text: The text to search for in the screenshot.
+#   - retries: The number of times to retry searching for the text.
+#   - interval: The interval (in seconds) between each retry.
+#
+# Returns:
+#   This function returns 0 if the text is found in the screenshot, otherwise it returns an error.
+#
+# Example usage:
+#   qt_wait_for_text "Test 1" "Welcome to Ubuntu" 5 1
+#
 function qt_wait_for_text() {
     local test_name="$1"
     local text="$2"  
